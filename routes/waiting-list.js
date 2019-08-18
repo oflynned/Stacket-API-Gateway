@@ -1,4 +1,4 @@
-import {createRecord} from "../common/record";
+import {createRecord, getRecords} from "../common/record";
 
 const express = require('express');
 const router = express.Router();
@@ -14,6 +14,11 @@ router.post('/', async (req, res) => {
 
     await createRecord(collection, {email});
     res.status(204).send();
+});
+
+router.get("/", async (req, res) => {
+    const emails = await getRecords(collection, {});
+    res.status(200).json(emails);
 });
 
 module.exports = router;
