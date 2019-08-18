@@ -9,7 +9,7 @@ module.exports = {
 
   get mongoUrl () {
     const developmentUrl = `mongodb://localhost:27017/${dbName}`;
-    const productionUrl = process.env.DB_URL;
+    const productionUrl = process.env.MONGO_URL;
     return getEnvironment() === "production" ? productionUrl : developmentUrl;
   }
 };
