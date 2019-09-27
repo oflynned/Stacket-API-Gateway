@@ -29,9 +29,9 @@ jobs:
     docker:
       - image: buildpack-deps:trusty
     steps:
-      # - add_ssh_keys:
-      #     fingerprints:
-      #       - "5a:b6:f5:b3:d8:92:b0:c2:e1:ac:8d:d6:ed:90:42:e0"
+       - add_ssh_keys:
+           fingerprints:
+             - "a0:6b:6c:68:25:51:03:c5:9d:a2:4c:22:ff:0b:77:bd"
       - checkout
       - run:
           name: Add Dokku to known_hosts
