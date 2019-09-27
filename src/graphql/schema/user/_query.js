@@ -1,4 +1,4 @@
-import mockData from '../../data/mockUserData';
+import User from '../../../models/user';
 
 const Query = `
   extend type Query {
@@ -10,8 +10,6 @@ export const queryTypes = () => [Query];
 
 export const queryResolvers = {
   Query: {
-    users(_parent, { name }) {
-      return mockData.filter(item => item.name === name);
-    }
+    users: async (_, { name }) => User.find({ name })
   }
 };
