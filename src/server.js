@@ -1,40 +1,39 @@
-// HTTP SERVER
 import express from 'express';
 import cors from 'cors';
 
-require("dotenv").load();
-
-const {ENVIRONMENT, CORS_DOMAIN} = process.env;
+import apollo from './graphql';
+import config from './config';
 
 const app = express();
 
 function setPort(port) {
-    app.set('port', parseInt(port, 10));
+  if (!port) {
+    throw new Error('no port configured!');
+  }
+
+  app.set('port', parseInt(port, 10));
 }
 
 function listen() {
-    const port = app.get('port') || 3001;
-    app.listen(port, () => {
-        console.log(`The server is running and listening at http://localhost:${port}`);
-    });
+  const port = app.get('port') || config.port;
+  app.listen(port, () => {
+    console.log(`The server is running and listening at http://localhost:${port}`);
+  });
 }
 
 app.use(cors({
-    origin: () => isProductionEnvironment() ? CORS_DOMAIN : '*',
-    optionsSuccessStatus: 200
+  origin: config.corsDomain,
+  optionsSuccessStatus: 200
 }));
 
-// Endpoint to check if the API is running
-app.get('/api/status', (req, res) => {
-    res.send({status: 'ok'});
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
 });
 
-export const isProductionEnvironment = () => ENVIRONMENT === "production";
-
-export const isDevelopmentEnvironment = () => ENVIRONMENT === "development";
+apollo(app);
 
 export default {
-    getApp: () => app,
-    setPort,
-    listen
+  getApp: () => app,
+  setPort,
+  listen
 };

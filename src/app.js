@@ -1,4 +1,4 @@
-import server from './bin/server';
+import server from './server';
 
 server.listen();
 
