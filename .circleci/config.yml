@@ -37,7 +37,7 @@ jobs:
           name: Add Dokku to known_hosts
           command: |
             ssh-keyscan -H 134.209.93.116 >> ~/.ssh/known_hosts
-            ssh-keyscan -H api.stacket.io >> ~/.ssh/known_hosts
+            ssh-keyscan -H stacket.io >> ~/.ssh/known_hosts
       - run:
           name: Deploy to Dokku
           command: git push -f dokku@stacket.io:api master
