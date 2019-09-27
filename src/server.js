@@ -6,6 +6,10 @@ import config from './config';
 
 const app = express();
 
+const logger = require('morgan');
+
+app.use(logger('dev'));
+
 function setPort(port) {
   if (!port) {
     throw new Error('no port configured!');

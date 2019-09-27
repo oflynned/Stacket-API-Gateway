@@ -37,6 +37,6 @@
     "graphql-tools": "^3.0.2",
     "lodash": "^4.17.10",
     "mongodb": "^3.3.2",
-    "monk": "^7.0.0"
+    "morgan": "^1.9.1"
   }
 }
