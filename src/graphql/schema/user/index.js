@@ -1,7 +1,8 @@
-import { types, typeResolvers } from './_type';
-import { queryTypes, queryResolvers } from './_query';
+import { typeResolvers, types } from './_type';
+import { queryResolvers, queryTypes } from './_query';
+import { mutationResolvers, mutationTypes } from './_mutation';
 
 export default {
-  types: () => [types, queryTypes],
-  resolvers: Object.assign(queryResolvers, typeResolvers),
+  types: () => [types, queryTypes, mutationTypes],
+  resolvers: Object.assign(queryResolvers, mutationResolvers, typeResolvers),
 };
