@@ -28,7 +28,7 @@ class User extends Document {
   }
 
   async memberOf() {
-    return Organisation.find({});
+    return Organisation.find({ members: { $in: [this._id] } });
   }
 
   preValidate() {
