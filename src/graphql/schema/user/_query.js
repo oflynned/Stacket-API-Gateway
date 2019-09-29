@@ -1,8 +1,9 @@
-import User from '../../../models/user';
+import User from '../../../models/user/user';
 
 const Query = `
   extend type Query {
-    users(name: String): [User]
+    findUser(email: String!): User
+    findUsers: [User]
   }
 `;
 
@@ -10,9 +11,7 @@ export const queryTypes = () => [Query];
 
 export const queryResolvers = {
   Query: {
-    users: async (_, args) => {
-      const hasQuery = Object.keys(args).length > 0;
-      return hasQuery ? User.find(args) : User.find();
-    }
+    findUser: async (_, { email }) => User.findByEmail(email),
+    findUsers: async (_, _args) => User.find({})
   }
 };
