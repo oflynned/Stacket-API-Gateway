@@ -1,6 +1,7 @@
 import { Document } from 'camo';
 
 import schema from './schema';
+import Organisation from '../organisation/organisation';
 
 const collection = 'users';
 
@@ -20,6 +21,14 @@ class User extends Document {
 
   static collectionName() {
     return collection;
+  }
+
+  async ownerOf() {
+    return Organisation.find({ owner: this._id });
+  }
+
+  async memberOf() {
+    return Organisation.find({});
   }
 
   preValidate() {

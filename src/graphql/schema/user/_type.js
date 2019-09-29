@@ -3,6 +3,8 @@ const User = `
     _id: String!
     name: String!
     email: String!
+    ownerOf: [Organisation]
+    memberOf: [Organisation]
   }
 `;
 

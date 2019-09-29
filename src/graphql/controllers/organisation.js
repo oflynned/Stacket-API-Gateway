@@ -7,7 +7,9 @@ export const createOrganisation = async (args) => {
     return organisation;
   }
 
-  args.owner = await User.findById(args.ownerId);
+  const owner = await User.findById(args.ownerId);
+  args.owner = owner;
+  args.members = [owner];
   return Organisation
     .create(args)
     .save();
