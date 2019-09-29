@@ -1,12 +1,8 @@
 import { Document } from 'camo';
 
-const collection = 'users';
+import schema from './schema';
 
-const schema = {
-  name: String,
-  email: String,
-  hash: String
-};
+const collection = 'users';
 
 class User extends Document {
   constructor() {
@@ -14,16 +10,28 @@ class User extends Document {
     this.schema(schema);
   }
 
+  static async findById(_id) {
+    return User.findOne({ _id });
+  }
+
   static async findByEmail(email) {
     return User.findOne({ email });
   }
 
-  static async findByOrganisation(organisationId) {
-    return User.find({ organisationId });
-  }
-
   static collectionName() {
     return collection;
+  }
+
+  preValidate() {
+    super.preValidate();
+  }
+
+  preSave() {
+    super.preSave();
+  }
+
+  preDelete() {
+    super.preDelete();
   }
 }
 
