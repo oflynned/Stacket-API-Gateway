@@ -1,4 +1,4 @@
-import { createUser, deleteUser, updateUser } from '../../controllers/user';
+import { createUser, deleteUser, updateUser } from '../../../controllers/user';
 
 const Mutation = `
   extend type Mutation {
