@@ -1,8 +1,9 @@
 import bodyParser from 'body-parser';
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
+import { graphiqlExpress, graphqlExpress } from 'apollo-server-express';
 
 import config from '../config';
 import schema from './schema';
+import User from '../models/user/user';
 
 export default (app) => {
   if (config.environment === 'development') {
@@ -17,4 +18,11 @@ export default (app) => {
       debug: config.env === 'development'
     }))
   );
+
+  app.use(async (req, res, next) => {
+    // TODO swap out header token for req.user
+    // const { email } = req;
+    // req.user = email ? await User.findByEmail(email) : undefined;
+    next();
+  });
 };
