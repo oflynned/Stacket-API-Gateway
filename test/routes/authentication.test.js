@@ -1,4 +1,8 @@
+import Database from '../../src/common/db';
+
 import { dropDb } from '../helpers/dbHelper';
+import { postResource } from '../helpers/apiRequestHelper';
+import { seedUser } from '../factories/user';
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -10,22 +14,36 @@ const headers = {
   email,
   password
 };
-const url = '/auth';
 
-describe(`${url} endpoint`, () => {
+const endpoint = '/auth';
+
+xdescribe(`${endpoint} endpoint`, () => {
   beforeEach(async () => {
     await dropDb();
     // eslint-disable-next-line global-require
     app = require('../../src/app');
     chai.use(chaiHttp);
+
+    await seedUser({ email }, password);
   });
 
   afterEach(async () => dropDb());
 
-  describe('POST', () => {
+  xdescribe('POST', () => {
     describe('should return 200', () => {
-      test('when creating new user account', async (done) => {
-        done();
+      test('when user account already exists', async (done) => {
+        try {
+          const { body, status } = await postResource(app, headers, endpoint, {});
+          expect(body.email)
+            .toEqual(email);
+          expect(status)
+            .toEqual(200);
+          done();
+        } catch ({ response }) {
+          console.log('here?');
+          console.log(response);
+          done(response);
+        }
       });
     });
 
