@@ -34,44 +34,34 @@ describe(`${endpoint} endpoint`, () => {
     describe('should return 200', () => {
       test('when user account already exists', async (done) => {
         await seedUser({ email }, password);
-        try {
-          const { body, status } = await postResource(app, headers, endpoint, {});
-          expect(body.email)
-            .toEqual(email);
-          expect(status)
-            .toEqual(200);
-          done();
-        } catch ({ response }) {
-          done(response);
-        }
+        const { body, status } = await postResource(app, headers, endpoint, {});
+        expect(body.email)
+          .toEqual(email);
+        expect(status)
+          .toEqual(200);
+        done();
       });
     });
 
     describe('should return 201', () => {
       test('when user account already exists', async (done) => {
-        try {
-          const { body, status } = await postResource(app, headers, endpoint, generateUser());
-          expect(body.email)
-            .toEqual(email);
-          expect(status)
-            .toEqual(201);
-          done();
-        } catch ({ response }) {
-          done(response);
-        }
+        const { body, status } = await postResource(app, headers, endpoint, generateUser());
+        expect(body.email)
+          .toEqual(email);
+        expect(status)
+          .toEqual(201);
+        done();
       });
     });
 
     describe('should return 400', () => {
       test('when new user account is malformed', async (done) => {
-        try {
-          await postResource(app, headers, endpoint, {});
-          done('accepted empty body');
-        } catch ({ response }) {
-          expect(response.status)
-            .toEqual(400);
-          done();
-        }
+        const { status, body } = await postResource(app, headers, endpoint, {});
+        expect(status)
+          .toEqual(400);
+        expect(body.error)
+          .toMatch(/name is required/);
+        done();
       });
     });
   });

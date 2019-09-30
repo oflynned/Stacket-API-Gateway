@@ -1,6 +1,5 @@
 import databaseConfig, { collections } from '../../src/config/databaseConfig';
 
-// one-liner hack instead of trying to mess with the connect() method on camo mongo client
 const db = require('monk')(databaseConfig.databaseUri);
 
 export const dropDb = async () =>
