@@ -12,6 +12,7 @@ require('dotenv')
 const app = express();
 const logger = require('morgan');
 
+// TODO set this appropriate for use in a production environment
 app.use(logger('dev'));
 
 function setPort(port) {
