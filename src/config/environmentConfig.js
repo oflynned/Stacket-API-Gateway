@@ -1,4 +1,6 @@
-const { PORT, ENVIRONMENT, CORS_DOMAIN } = process.env;
+const {
+  SESSION_SECRET, PORT, ENVIRONMENT, CORS_DOMAIN
+} = process.env;
 
 const FALLBACK_PORT = 3001;
 
