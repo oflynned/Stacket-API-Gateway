@@ -3,6 +3,7 @@ import { isProductionEnvironment } from './environmentConfig';
 const { ENVIRONMENT, MONGO_URL } = process.env;
 
 const environments = ['production', 'development', 'test'];
+export const collections = ['users', 'sessions', 'organisations'];
 
 export function getEnvironment() {
   const reportedEnvironment = ENVIRONMENT ? ENVIRONMENT.toLowerCase() : 'development';
