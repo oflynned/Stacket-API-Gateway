@@ -1,5 +1,3 @@
-import { factory } from 'factory-girl';
-
 import User from '../../src/models/user/user';
 import { hashPassword } from '../../src/common/hashing';
 
@@ -10,19 +8,13 @@ const generatePayload = () => ({
   email: Faker.internet.email(),
 });
 
-factory.define('user', User, generatePayload());
-
 export const seedUser = async (overrides = {}, password = Faker.internet.password()) => {
-  const hash = await hashPassword(password);
-  const user = await factory.build(
-    'user',
-    Object.assign({}, generatePayload(), overrides, { hash })
-  );
-
-  return user.save();
+  const args = await generateUser(overrides, password);
+  return User.create(args)
+    .save();
 };
 
-export const generateUser = async (overrides = {}, verified = true) => {
-  const user = await factory.build('user', Object.assign({}, overrides, { verified }));
-  return user.toJSON();
+export const generateUser = async (overrides = {}, password = Faker.internet.password()) => {
+  const hash = await hashPassword(password);
+  return Object.assign({}, generatePayload(), overrides, { hash });
 };
