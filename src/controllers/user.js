@@ -1,13 +1,18 @@
 import User from '../models/user/user';
+import { hashPassword } from '../common/hashing';
 
-export const createUser = async (args) => {
-  const user = await User.findOne({ email: args.email });
-  if (user !== null) {
-    return user;
-  }
+export const createUser = async ({ headers: { email, password }, body }) => {
+  const hash = await hashPassword(password);
+  const args = Object.assign(
+    {},
+    body,
+    {
+      hash,
+      email
+    }
+  );
 
-  return User
-    .create(args)
+  return User.create(args)
     .save();
 };
 
