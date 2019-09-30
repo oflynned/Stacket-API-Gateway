@@ -9,8 +9,6 @@ import environmentConfig from './config/environmentConfig';
 require('dotenv')
   .config();
 
-require('./config/passportConfig');
-
 const app = express();
 const logger = require('morgan');
 
