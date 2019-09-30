@@ -1,4 +1,4 @@
-import { isProductionEnvironment } from '../config/environmentConfig';
+import { isProductionEnvironment } from './environmentConfig';
 
 const { ENVIRONMENT, MONGO_URL } = process.env;
 
@@ -13,8 +13,10 @@ const dbName = () => (isProductionEnvironment() ? 'api_prod' : `api_${getEnviron
 
 const mongodbUri = () => (isProductionEnvironment() ? MONGO_URL : `mongodb://localhost:27017/${dbName()}`);
 
-export const databaseConfig = {
+const databaseConfig = {
   name: dbName(),
   databaseUri: mongodbUri(),
   environment: getEnvironment()
 };
+
+export default databaseConfig;
