@@ -4,8 +4,6 @@ import schema, { TTL_EIGHT_HOURS } from './schema';
 import User from '../user/user';
 import { generateHmacFromToken } from '../../common/hashing';
 
-const collection = 'sessions';
-
 class Session extends Document {
   constructor() {
     super();
@@ -51,10 +49,6 @@ class Session extends Document {
   static async purgeSession(sessionId) {
     const sessionHmac = await generateHmacFromToken(sessionId);
     return Session.deleteOne({ sessionId: sessionHmac });
-  }
-
-  static collectionName() {
-    return collection;
   }
 
   async user() {

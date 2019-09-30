@@ -4,8 +4,6 @@ import schema from './schema';
 import Organisation from '../organisation/organisation';
 import { isMatchingPassword } from '../../common/hashing';
 
-const collection = 'users';
-
 class User extends Document {
   constructor() {
     super();
@@ -30,10 +28,6 @@ class User extends Document {
 
   static async doesUserExist(email) {
     return User.findByEmail(email) !== null;
-  }
-
-  static collectionName() {
-    return collection;
   }
 
   async ownerOf() {

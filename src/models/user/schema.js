@@ -7,9 +7,18 @@ const schema = {
     type: Date,
     default: null
   },
-  name: String,
-  email: String,
-  hash: String
+  name: {
+    required: true,
+    type: String
+  },
+  email: {
+    required: true,
+    type: String
+  },
+  hash: {
+    required: true,
+    type: String
+  }
 };
 
 export default schema;
