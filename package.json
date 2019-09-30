@@ -24,7 +24,6 @@
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-import": "^2.12.0",
-    "factory-girl": "^5.0.4",
     "faker": "^4.1.0",
     "jest": "^24.9.0",
     "monk": "^7.1.0",
