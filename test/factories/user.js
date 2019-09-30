@@ -1,37 +1,28 @@
-import factory from "./factory";
-import User from "../models/user/user";
-import { generateHmacFromToken, hashPassword } from "../common/hashing";
+import { factory } from 'factory-girl';
 
-const Faker = require("faker");
+import User from '../../src/models/user/user';
+import { hashPassword } from '../../src/common/hashing';
 
-const generatePayload = () => {
-  return {
-    name: Faker.name.firstName() + " " + Faker.name.lastName(),
-    dob: "01/01/1990",
-    email: Faker.internet.email(),
-    sex: "male",
-    fcmToken: "token"
-  };
-};
+const Faker = require('faker');
 
-factory.define("user", User, generatePayload());
+const generatePayload = () => ({
+  name: `${Faker.name.firstName()} ${Faker.name.lastName()}`,
+  email: Faker.internet.email(),
+});
 
-export const seedUser = async (overrides = {}, password = Faker.internet.password(), verified = true) => {
+factory.define('user', User, generatePayload());
+
+export const seedUser = async (overrides = {}, password = Faker.internet.password()) => {
   const hash = await hashPassword(password);
-  const user = await factory.build("user",
-    Object.assign({}, generatePayload(), overrides, {
-      hash,
-      verified,
-      verificationToken: overrides.verificationToken ? await generateHmacFromToken(overrides.verificationToken) : "token",
-      passwordResetPin: null,
-      passwordResetPinExpiryTime: null,
-      timeLastExercised: null
-    }));
+  const user = await factory.build(
+    'user',
+    Object.assign({}, generatePayload(), overrides, { hash })
+  );
 
   return user.save();
 };
 
 export const generateUser = async (overrides = {}, verified = true) => {
-  const user = await factory.build("user", Object.assign({}, overrides, { verified }));
+  const user = await factory.build('user', Object.assign({}, overrides, { verified }));
   return user.toJSON();
 };
