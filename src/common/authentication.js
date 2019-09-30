@@ -44,7 +44,6 @@ export const checkAuthorization = async (req, res, next) => {
 
     next();
   } catch (err) {
-    console.log('checkAuthorization', err);
     res.status(400)
       .send({ error: err.message });
   }
@@ -62,7 +61,6 @@ export const enforceAuthorization = async (req, res, next) => {
     req.user = await User.findByEmail(req.headers.email);
     next();
   } catch (err) {
-    console.log(err);
     switch (err.message) {
       default:
       case 'bad_request':
