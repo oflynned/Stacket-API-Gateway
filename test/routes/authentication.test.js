@@ -62,8 +62,17 @@ describe(`${endpoint} endpoint`, () => {
       });
     });
 
-    xdescribe('should return 400', () => {
-
+    describe('should return 400', () => {
+      test('when new user account is malformed', async (done) => {
+        try {
+          await postResource(app, headers, endpoint, {});
+          done('accepted empty body');
+        } catch ({ response }) {
+          expect(response.status)
+            .toEqual(400);
+          done();
+        }
+      });
     });
   });
 
