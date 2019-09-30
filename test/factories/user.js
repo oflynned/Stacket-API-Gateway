@@ -9,12 +9,11 @@ const generatePayload = () => ({
 });
 
 export const seedUser = async (overrides = {}, password = Faker.internet.password()) => {
-  const args = await generateUser(overrides, password);
+  const hash = await hashPassword(password);
+  const args = Object.assign({}, generatePayload(), overrides, { hash });
   return User.create(args)
     .save();
 };
 
-export const generateUser = async (overrides = {}, password = Faker.internet.password()) => {
-  const hash = await hashPassword(password);
-  return Object.assign({}, generatePayload(), overrides, { hash });
-};
+export const generateUser = (overrides = {}) =>
+  Object.assign({}, generatePayload(), overrides);

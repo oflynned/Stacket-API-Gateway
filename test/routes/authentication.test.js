@@ -1,6 +1,6 @@
 import { dropDb } from '../helpers/dbHelper';
 import { postResource } from '../helpers/apiRequestHelper';
-import { seedUser } from '../factories/user';
+import { generateUser, seedUser } from '../factories/user';
 
 import Database from '../../src/common/db';
 import server from '../../src/server';
@@ -26,8 +26,6 @@ describe(`${endpoint} endpoint`, () => {
     await dropDb();
     app = server.getApp();
     chai.use(chaiHttp);
-
-    await seedUser({ email }, password);
   });
 
   afterEach(async () => dropDb());
@@ -35,6 +33,7 @@ describe(`${endpoint} endpoint`, () => {
   describe('POST', () => {
     describe('should return 200', () => {
       test('when user account already exists', async (done) => {
+        await seedUser({ email }, password);
         try {
           const { body, status } = await postResource(app, headers, endpoint, {});
           expect(body.email)
@@ -48,8 +47,19 @@ describe(`${endpoint} endpoint`, () => {
       });
     });
 
-    xdescribe('should return 201', () => {
-
+    describe('should return 201', () => {
+      test('when user account already exists', async (done) => {
+        try {
+          const { body, status } = await postResource(app, headers, endpoint, generateUser());
+          expect(body.email)
+            .toEqual(email);
+          expect(status)
+            .toEqual(201);
+          done();
+        } catch ({ response }) {
+          done(response);
+        }
+      });
     });
 
     xdescribe('should return 400', () => {
