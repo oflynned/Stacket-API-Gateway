@@ -9,7 +9,7 @@
     "heroku-postbuild": "npm install && npm run build",
     "clean": "rimraf dist/*",
     "build": "npm run clean && babel src -d dist",
-    "test": "NODE_ENV=test jest --runInBand --forceExit",
+    "test": "NODE_ENV=test ENVIRONMENT=test jest --runInBand --forceExit",
     "lint": "eslint --ignore-path .eslintignore . --fix"
   },
   "devDependencies": {
@@ -18,11 +18,14 @@
     "@babel/node": "^7.0.0-beta.49",
     "@babel/preset-env": "^7.0.0-beta.49",
     "@babel/register": "^7.0.0-beta.49",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-import": "^2.12.0",
     "jest": "^24.9.0",
+    "monk": "^7.1.0",
     "nodemon": "^1.17.5",
     "rimraf": "^2.6.2"
   },
@@ -42,6 +45,6 @@
     "lodash": "^4.17.10",
     "mongodb": "^3.3.2",
     "morgan": "^1.9.1",
-    "node-uuid": "^1.4.8"
+    "uuid": "^3.3.3"
   }
 }
