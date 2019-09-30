@@ -3,9 +3,24 @@ import { json as parseJson } from 'body-parser';
 
 import { isDevelopmentEnvironment, isProductionEnvironment } from '../config/environmentConfig';
 import schema from './schema';
+import Session from '../models/session/session';
 
-const isAuthenticated = (req, res, next) =>
-  (req.isAuthenticated() ? next() : res.status(401));
+const enforceActiveSession = async (req, res, next) => {
+  if (!req.headers.hasOwnProperty('x-session-id')) {
+    return res.status(400)
+      .send();
+  }
+
+  const sessionId = req.headers['x-session-id'];
+  const session = await Session.findBySessionId(sessionId);
+  if (session === null) {
+    return res.status(401)
+      .send();
+  }
+
+  req.user = session.user;
+  next();
+};
 
 export default (app) => {
   if (isDevelopmentEnvironment()) {
@@ -18,7 +33,7 @@ export default (app) => {
   app.use(
     '/graphql',
     parseJson(),
-    isAuthenticated,
+    enforceActiveSession,
     graphqlExpress(req => ({
       schema,
       debug: !isProductionEnvironment(),
