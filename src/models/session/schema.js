@@ -1,3 +1,7 @@
+import User from '../user/user';
+
+export const TTL_EIGHT_HOURS = 30 * 24 * 60 * 60 * 1000;
+
 const schema = {
   createdAt: {
     type: Date,
@@ -7,9 +11,12 @@ const schema = {
     type: Date,
     default: null
   },
-  name: String,
-  email: String,
-  hash: String
+  sessionId: String,
+  user: User,
+  expiryTime: {
+    type: Date,
+    default: Date.now() + TTL_EIGHT_HOURS
+  }
 };
 
 export default schema;
