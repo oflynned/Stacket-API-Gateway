@@ -1,6 +1,7 @@
 import User from '../user/user';
 
-export const TTL_EIGHT_HOURS = 30 * 24 * 60 * 60 * 1000;
+const ONE_HOUR = 60 * 60 * 1000;
+export const TTL_EIGHT_HOURS = 8 * ONE_HOUR;
 
 const schema = {
   createdAt: {
