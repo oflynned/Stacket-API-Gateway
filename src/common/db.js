@@ -1,5 +1,5 @@
 import { connect } from 'camo';
-import { databaseConfig } from './databaseConfig';
+import databaseConfig from '../config/databaseConfig';
 
 class Database {
   static async connect() {
