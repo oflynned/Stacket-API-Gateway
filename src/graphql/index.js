@@ -1,28 +1,28 @@
-import bodyParser from 'body-parser';
 import { graphiqlExpress, graphqlExpress } from 'apollo-server-express';
+import { json as parseJson } from 'body-parser';
 
-import config from '../config';
+import { isDevelopmentEnvironment, isProductionEnvironment } from '../config/environmentConfig';
 import schema from './schema';
-import User from '../models/user/user';
+
+const isAuthenticated = (req, res, next) =>
+  (req.isAuthenticated() ? next() : res.status(401));
 
 export default (app) => {
-  if (config.environment === 'development') {
-    app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+  if (isDevelopmentEnvironment()) {
+    app.use(
+      '/graphiql',
+      graphiqlExpress({ endpointURL: '/graphql' })
+    );
   }
 
   app.use(
     '/graphql',
-    bodyParser.json(),
-    graphqlExpress(() => ({
+    parseJson(),
+    isAuthenticated,
+    graphqlExpress(req => ({
       schema,
-      debug: config.env === 'development'
+      debug: !isProductionEnvironment(),
+      context: req
     }))
   );
-
-  app.use(async (req, res, next) => {
-    // TODO swap out header token for req.user
-    // const { email } = req;
-    // req.user = email ? await User.findByEmail(email) : undefined;
-    next();
-  });
 };
