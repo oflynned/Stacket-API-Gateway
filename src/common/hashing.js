@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import uuid from 'node-uuid';
+import uuid from 'uuid';
 
 import authenticationConfig from '../config/authenticationConfig';
 import { isProductionEnvironment } from '../config/environmentConfig';
