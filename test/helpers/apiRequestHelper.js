@@ -51,3 +51,15 @@ export function deleteResource(app, headers, endpoint) {
       .catch(err => reject(err));
   });
 }
+
+export function deleteSessionResource(app, sessionId, endpoint) {
+  console.log(sessionId);
+  return new Promise((resolve, reject) => {
+    chai.request(app)
+      .delete(endpoint)
+      .set('x-session-id', sessionId)
+      .set('Content-Type', 'application/json')
+      .then(response => resolve(response))
+      .catch(err => reject(err));
+  });
+}

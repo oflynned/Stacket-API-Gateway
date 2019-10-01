@@ -1,5 +1,5 @@
 import { dropDb } from '../helpers/dbHelper';
-import { postResource } from '../helpers/apiRequestHelper';
+import { deleteSessionResource, getResource, postResource } from '../helpers/apiRequestHelper';
 import { generateUser, seedUser } from '../factories/user';
 
 import Database from '../../src/common/db';
@@ -66,23 +66,60 @@ describe(`${endpoint} endpoint`, () => {
     });
   });
 
-  xdescribe('GET', () => {
-    xdescribe('should return 201', () => {
+  describe('GET', () => {
+    beforeEach(async () => dropDb());
+    afterEach(async () => dropDb());
 
+    describe('should return 201', () => {
+      test('when requesting a new session uuid', async (done) => {
+        await seedUser({ email }, password);
+        const { status, body } = await getResource(app, headers, endpoint);
+        expect(status)
+          .toEqual(201);
+        expect(body)
+          .toHaveProperty('sessionId');
+        expect(body.sessionId)
+          .not
+          .toBeNull();
+        done();
+      });
     });
 
-    xdescribe('should return 401', () => {
-
+    describe('should return 401', () => {
+      test('when account does not exist', async (done) => {
+        const { status } = await getResource(app, headers, endpoint);
+        expect(status)
+          .toEqual(401);
+        done();
+      });
     });
   });
 
   xdescribe('DELETE', () => {
-    xdescribe('should return 204', () => {
+    beforeEach(async () => dropDb());
 
+    afterEach(async () => dropDb());
+
+    describe('should return 204', () => {
+      test('when account does not exist', async (done) => {
+        await seedUser({ email }, password);
+        // TODO seed session job
+        const { body: { sessionId } } = await getResource(app, headers, endpoint);
+        const { status } = await deleteSessionResource(app, sessionId, endpoint);
+        expect(status)
+          .toEqual(204);
+        done();
+      });
     });
 
-    xdescribe('should return 403', () => {
-
+    describe('should return 403', () => {
+      test('when requesting to end another users session', async (done) => {
+        const { body: { sessionId } } = await getResource(app, headers, endpoint);
+        const { status } = await deleteSessionResource(app, sessionId, endpoint);
+        expect(status)
+          .toEqual(403);
+        done();
+      });
     });
   });
 });
