@@ -6,7 +6,7 @@ import schema from './schema';
 import Session from '../models/session/session';
 
 const enforceActiveSession = async (req, res, next) => {
-  if (!req.headers.hasOwnProperty('x-session-id')) {
+  if (!Object.prototype.hasOwnProperty.call(req.headers, 'x-session-id')) {
     return res.status(400)
       .send();
   }

@@ -12,6 +12,6 @@ export const queryTypes = () => [Query];
 export const queryResolvers = {
   Query: {
     findUser: async (_, { email }) => User.findByEmail(email),
-    findUsers: async (_, _args) => User.find({})
+    findUsers: async () => User.find({})
   }
 };
