@@ -1,5 +1,5 @@
-import Organisation from '../../models/organisation/organisation';
-import User from '../../models/user/user';
+import Organisation from '../models/organisation/organisation';
+import User from '../models/user/user';
 
 export const createOrganisation = async (args) => {
   const organisation = await Organisation.findById(args._id);

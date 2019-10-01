@@ -1,5 +1,5 @@
 import server from './server';
-import Database from './persistence/db';
+import Database from './common/db';
 
 // Database.connect() does not need to be called per request in app.js
 // this is just for passing a config in, the db object is accessible globally once it is called

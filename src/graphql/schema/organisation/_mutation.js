@@ -2,7 +2,7 @@ import {
   createOrganisation,
   deleteOrganisation,
   updateOrganisation
-} from '../../controllers/organisation';
+} from '../../../controllers/organisation';
 
 const Mutation = `
   extend type Mutation {
