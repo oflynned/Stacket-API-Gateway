@@ -44,7 +44,7 @@ describe(`${endpoint} endpoint`, () => {
     });
 
     describe('should return 201', () => {
-      test('when user account already exists', async (done) => {
+      test('when user account does not exist', async (done) => {
         const { body, status } = await postResource(app, headers, endpoint, generateUser());
         expect(body.email)
           .toEqual(email);
