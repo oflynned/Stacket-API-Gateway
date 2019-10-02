@@ -25,7 +25,7 @@ jobs:
 
       # linting should be enacted to see if the code is following standards
       # local linting only runs on staged files, so things could slip through
-      - run: npm run lint
+      - run: npm run check-linting
       # run those tests ayyy
       - run: npm test
 
