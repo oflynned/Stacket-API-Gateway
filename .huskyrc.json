@@ -1,0 +1,6 @@
+{
+  "hooks": {
+    "pre-commit": "lint-staged && npm run sort-package-json",
+    "pre-push": "npm test"
+  }
+}

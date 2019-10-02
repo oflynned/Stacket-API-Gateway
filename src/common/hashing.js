@@ -29,9 +29,8 @@ export const isMatchingHmac = async (tokenAttempt, hmac) => {
   return attemptHash === hmac;
 };
 
-export const isMatchingPassword = async (passwordAttempt, hash) => {
-  return bcrypt.compare(passwordAttempt, hash);
-};
+export const isMatchingPassword = async (passwordAttempt, hash) =>
+  bcrypt.compare(passwordAttempt, hash);
 
 export const isPasswordFollowingRegulations = (password) => {
   if (isProductionEnvironment()) {

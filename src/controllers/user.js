@@ -16,10 +16,6 @@ export const createUser = async ({ headers: { email, password }, body }) => {
     .save();
 };
 
-export const updateUser = async (args) => {
-  return args;
-};
+export const updateUser = async args => args;
 
-export const deleteUser = async (userId) => {
-  return { userId };
-};
+export const deleteUser = async userId => ({ userId });

@@ -14,7 +14,7 @@ require('babel-polyfill');
 module.exports = {
   verbose: true,
   transform: {
-    '^.+\\.jsx?$': 'babel-jest'
+    '^.+\\.js?$': 'babel-jest'
   },
   // globalSetup: join(JEST_ENV, 'setup.js'),
   // globalTeardown: join(JEST_ENV, 'teardown.js'),
