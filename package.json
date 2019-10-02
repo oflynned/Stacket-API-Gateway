@@ -15,7 +15,7 @@
     "test": "NODE_ENV=test ENVIRONMENT=test jest --runInBand --forceExit"
   },
   "lint-staged": {
-    "\\.(test.|js)": [
+    "\\.(test.js|js)": [
       "eslint --fix",
       "git add"
     ]
