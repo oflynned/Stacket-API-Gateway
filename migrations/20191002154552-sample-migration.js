@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   up(db) {
     // TODO write your migration here. Return a Promise (and/or use async & await).
