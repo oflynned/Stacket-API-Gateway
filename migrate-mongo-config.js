@@ -6,7 +6,6 @@ const { ConnectionStringParser } = require('connection-string-parser');
 const dbConfig = require('./src/config/databaseConfig');
 
 const connectionStringParser = new ConnectionStringParser({
-  // To support mongodb atlas connectionstring too
   scheme: 'mongodb',
   hosts: []
 });
