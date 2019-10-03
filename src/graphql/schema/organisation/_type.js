@@ -2,7 +2,7 @@ const Organisation = `
   type Organisation {
     _id: String!
     name: String!
-    owner: User
+    ownedBy: User
     members: [User]
   }
 `;
