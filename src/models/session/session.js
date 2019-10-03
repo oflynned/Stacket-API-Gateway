@@ -34,7 +34,7 @@ class Session extends Document {
     });
   }
 
-  static async extendSession(sessionId) {
+  static async extendExpiry(sessionId) {
     const sessionHmac = await generateHmacFromToken(sessionId);
     return Session.findOneAndUpdate(
       { sessionId: sessionHmac },
@@ -53,6 +53,10 @@ class Session extends Document {
 
   async user() {
     return User.findById(this.userId);
+  }
+
+  isExpired() {
+    return this.expiryTime < Date.now();
   }
 }
 
