@@ -1,4 +1,5 @@
 import User from '../models/user/user';
+import { removeAccountPasswordMatch } from './featureFlags';
 
 export const decodeAuthorization = (auth) => {
   const rawDigest = auth.replace('Basic ', '');
@@ -35,7 +36,14 @@ export const checkAuthorization = async (req, res, next) => {
   try {
     await manageHeaders(req);
     const exists = await checkUserExists(req);
-    const isValid = await checkUserCredentials(req);
+
+    let isValid;
+    if (removeAccountPasswordMatch()) {
+      isValid = true;
+    } else {
+      isValid = await checkUserCredentials(req);
+    }
+
     if (exists && isValid) {
       req.user = await User.findByEmail(req.headers.email);
     } else {
