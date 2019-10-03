@@ -17,8 +17,8 @@ class Organisation extends Document {
     // FIXME
     //  hacky fix as top level queries have a user object
     //  lower classes have the id as a string
-    const query = (this.owner.constructor === User) ? this.owner._id : this.owner;
-    return User.findOne({ _id: query }, {});
+    const _id = (this.owner.constructor === User) ? this.owner._id : this.owner;
+    return User.findOne({ _id }, {});
   }
 }
 
