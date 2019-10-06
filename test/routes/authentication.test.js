@@ -43,7 +43,7 @@ describe(`${endpoint} endpoint`, () => {
 
     describe('should return 201', () => {
       test('when user account does not exist', async (done) => {
-        const { body, status } = await postResource(app, headers, endpoint, generateUser());
+        const { status } = await postResource(app, headers, endpoint, generateUser());
         expect(status)
           .toEqual(201);
         done();
