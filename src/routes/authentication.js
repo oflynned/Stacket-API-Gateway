@@ -1,49 +1,53 @@
-import { checkAuthorization, enforceAuthorization } from '../common/authentication';
+import { checkAuthorization, enforceValidSession } from '../common/authentication';
 import { createUser } from '../controllers/user';
-import createSession from '../controllers/session';
+import { createSession, extendSessionExpiry } from '../controllers/session';
 import Session from '../models/session/session';
 
 const express = require('express');
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 
 // soft-check to see if the email:password basic combination corresponds to a user account
 // if not, then a new account is created
+// its use is for requesting a new session
 router.post(
   '/',
   checkAuthorization,
   async (req, res) => {
-    if (req.user) {
-      res.status(200)
-        .json(req.user);
-    } else {
+    let { user } = req;
+    let isNewUser = false;
+
+    if (!user) {
       try {
-        const account = await createUser(req);
-        res.status(201)
-          .json(account);
+        user = await createUser(req);
+        isNewUser = true;
       } catch (err) {
-        res.status(400)
+        return res.status(400)
           .json({ error: err.message });
       }
     }
+
+    const { _id, name } = user;
+    const { rawToken } = await createSession(user);
+    res.status(isNewUser ? 201 : 200)
+      .json({
+        session: rawToken,
+        user: {
+          _id,
+          name
+        }
+      });
   }
 );
 
-// for requesting a new session
-// TODO should this be unlimited or restricted? Sessions expire within 8 hours anyway.
-// TODO how should we deal with session blacklisting?
+// for checking if a session is valid or not for the FE in order to redirect
 router.get(
   '/',
-  enforceAuthorization,
+  enforceValidSession,
   async (req, res) => {
-    try {
-      const { rawToken: sessionId } = await createSession({ user: req.user._id });
-      res.status(201)
-        .json({ sessionId });
-    } catch (err) {
-      res.status(401)
-        .json({ error: err.message });
-    }
+    await extendSessionExpiry(req);
+    res.status(204)
+      .send();
   }
 );
 
@@ -51,7 +55,7 @@ router.get(
 // TODO should sessions be stored with an active flag, or destroyed outright?
 router.delete(
   '/',
-  enforceAuthorization,
+  enforceValidSession,
   async (req, res) => {
     await Session.purgeSession(req.headers['x-session-id']);
     res.status(204)

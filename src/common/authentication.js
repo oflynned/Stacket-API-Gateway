@@ -1,5 +1,6 @@
 import User from '../models/user/user';
 import { removeAccountPasswordMatch } from './featureFlags';
+import { isSessionValid } from '../controllers/session';
 
 export const decodeAuthorization = (auth) => {
   const rawDigest = auth.replace('Basic ', '');
@@ -55,6 +56,16 @@ export const checkAuthorization = async (req, res, next) => {
     res.status(400)
       .send({ error: err.message });
   }
+};
+
+export const enforceValidSession = async (req, res, next) => {
+  const isValid = await isSessionValid(req.headers['x-session-id']);
+  if (!isValid) {
+    return res.status(403)
+      .json({ error: 'invalid_session_id' });
+  }
+
+  next();
 };
 
 export const enforceAuthorization = async (req, res, next) => {

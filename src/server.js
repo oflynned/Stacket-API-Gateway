@@ -34,10 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(cors({
-  origin: environmentConfig.corsDomain,
-  optionsSuccessStatus: 200
-}));
+app.use(cors({ origin: environmentConfig.corsDomain }));
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/authentication');
